@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>PDMC</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <style>
+        .column_title {
+            font-size:20px;
+        }
+    </style>
+</head>
+<body style="">
+   
+    <div style="margin-top:30px;" class="">
+        <div style="text-align:center">
+            <div style="margin:0 auto;">
+                <div class="layui-form-item layui-form">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">机种</label>
+                        <div class="layui-input-inline">
+                            <select lay-filter="jz" id="jz">
+                                <option value=""></option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">ItemCode</label>
+                        <div class="layui-input-inline">
+                            <select lay-filter="jz" id="jz">
+                                <option value=""></option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">计划数</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="password"  placeholder="请输入" autocomplete="off" class="layui-input">
+                        </div>
+
+                    </div>
+                </div>
+                <button type="button" class="layui-btn layui-btn-normal layui-btn-sm">提交申请</button>
+            </div>
+        </div>
+    </div>
+    <hr class="layui-bg-cyan">
+    <script src="layui/jquery-3.4.1.min.js"></script>
+    <script src="layui/layui.js"></script>
+    <script>
+        window.onload = function () {
+           
+            alert(0);
+        }
+        layui.use(['form', 'layedit', 'laydate', 'slider'], function () {
+            var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate
+            , slider = layui.slider;
+            var $ = layui.$
+            slider.render({
+                elem: '#slideTest8'
+                , theme: '#1E9FFF'
+                , input: true
+                , max: 688
+
+            });
+
+
+
+
+            //监听提交
+            form.on('select(jz)', function (data) {
+               
+            });
+            $.ajax({
+                url: "./Data/jz.ashx",
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    if (data.length > 0) {
+
+                        $("#jz").empty();
+                        $("#jz").append("<option value=''>请选择</option>");
+                        for (var i = 0; i < data.length; i++) {
+                            var item = data[i];
+                            $("#jz").append("<option value=" + item + ">" + item + "</option>");
+                        }
+                    } else {
+                        $("#jz").empty();
+                        $("#jz").append("<option value=''>请选择</option>");
+                    }
+                    renderForm();
+                }
+            })
+            function renderForm() {
+                layui.use('form', function () {
+                    var form = layui.form; //高版本建议把括号去掉，有的低版本，需要加()
+                    form.render();
+                });
+            }
+
+
+
+        });
+    </script>
+</body>
+
+
+
+</html>

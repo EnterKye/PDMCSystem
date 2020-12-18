@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>PDMC</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <style>
+        body {
+            margin: 10px;
+            height:100%;
+           
+        }
+        .cd img {
+            border: 0 none;
+            width: 100%;
+            max-width: 100%;
+            height: 200px;
+            max-height: 100%;
+            object-fit: cover;
+            transition: transform .5s;
+        }
+
+    </style>
+</head>
+<body style="background: #E7E7E7">
+
+    <div class="layui-container" id="master">
+        <div class="cd">
+            <img src="Hydrangeas.jpg" alt="" />
+        </div>
+    
+
+     
+            <ul class="layui-nav layui-bg-cyan" lay-filter="demo">
+                <li class="layui-nav-item"><a href="#" id="yonghu">123</a></li>
+                <li class="layui-nav-item"><a href="#default.html" onclick="loadIframe('default.html')">工作台</a></li>
+                <li class="layui-nav-item">
+                    <a href="#">物料申请</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="#apply.html" onclick="loadIframe('apply.html')">申请</a></dd>
+                        <dd><a onclick="loadIframe('htmlpage.html')">异常申请</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="#">Master维护</a></li>
+                <li class="layui-nav-item"><a href="#">查询</a></li>
+                <li class="layui-nav-item"><a href="#">人员管理</a></li>
+            </ul>
+            <hr class="layui-bg-blue">
+        <iframe src="login.html" frameborder="0" scrolling="no" width="100%" id="external-frame" onload="this.height=100"></iframe>
+    </div>
+   
+    <div ></div>
+    
+
+    <script src="layui/jquery-3.4.1.min.js"></script>
+    <script src="layui/layui.js"></script>
+    <script>
+        window.onhashchange = function () {
+            var hash = location.hash;         
+            hash = hash.substring(1, hash.length);
+          $("#external-frame").attr("src", hash);
+        }
+        function loadIframe(url) {
+            var u = window.location.href;
+            var end = u.indexOf("#");
+            var rurl = u.substring(0, end);
+            //设置新的锚点
+            window.location.href = rurl + "#" + url;
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            var hash = location.hash;
+            var url = hash.substring(1, hash.length);
+            if (url == "") {
+                $("#external-frame").attr("src", "login.html");
+            }
+            else { 
+                $("#external-frame").attr("src", url);
+            }
+        }, false)
+
+        function reinitIframe() {
+            var iframe = document.getElementById("external-frame");
+            try {
+                var bHeight = iframe.contentWindow.document.body.scrollHeight;
+                var dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+                var height = Math.max(bHeight, dHeight);
+                iframe.height = height;
+                
+            } catch (ex) { }
+        }
+        window.setInterval("reinitIframe()", 200);
+        //function setIframeHeight(iframe) {
+        //    if (iframe) {
+        //        var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+        //        if (iframeWin.document.body) {
+        //            iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+        //        }
+        //    }
+        //};
+
+        //window.onload = function () {
+        //    setIframeHeight(document.getElementById('external-frame'));
+        //};
+        layui.use(['carousel','element','layer'], function () {
+
+           var carousel = layui.carousel //轮播
+            , element = layui.element
+            , layer = layui.layer;
+
+        
+
+
+            
+
+        });
+
+    </script>
+</body>
+</html>

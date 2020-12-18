@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+</head>
+<body>
+    <input id="Text1" type="text" />
+    <input id="Text2" type="text" />
+    <input id="Button1" type="button" value="button" />
+    <script src="layui/jquery-3.4.1.min.js"></script>
+    <script>
+        $("#Button1").click(function () {
+            var a = $("#Text1").val();
+            var b = $("#Text2").val();
+            console.log(a);
+            console.log(b);
+            if (a == "" || b == "") {
+                alert("不能为空")
+            } else {
+                alert("没有空值");
+            }
+        })
+        
+
+    </script>
+</body>
+</html>
