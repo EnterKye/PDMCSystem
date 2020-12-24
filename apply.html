@@ -14,53 +14,54 @@
     </style>
 </head>
 <body style="">
-   
-    <div style="margin-top:30px;" class="">
-        <div style="text-align:center">
-            <div style="margin:0 auto;">
-                <div class="layui-form-item layui-form">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">机种</label>
-                        <div class="layui-input-inline">
-                            <select lay-filter="jz" id="jz">
-                                <option value=""></option>
-                            </select>
-                        </div>
+    <form class="layui-form" action="">
+        <div style="margin-top:30px;" class="">
+            <div style="text-align:center">
+                <div style="margin:0 auto;">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">机种</label>
+                            <div class="layui-input-inline">
+                                <select lay-filter="jz" id="jz">
+                                    <option value=""></option>
+                                </select>
+                            </div>
 
-                    </div>
-                </div>
-                <div class="layui-form-item layui-form">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">ItemCode</label>
-                        <div class="layui-input-inline">
-                            <select lay-filter="jz" id="jz">
-                                <option value=""></option>
-                            </select>
                         </div>
-
                     </div>
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">计划数</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="password"  placeholder="请输入" autocomplete="off" class="layui-input">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">ItemCode</label>
+                            <div class="layui-input-inline">
+                                <select lay-filter="ItemCode" id="ItemCode">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+
                         </div>
-
                     </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">计划数</label>
+                            <div class="layui-input-inline">
+                                <input type="text" lay-verify="required|number" autocomplete="off" class="layui-input">
+                            </div>
+
+                        </div>
+                    </div>
+                    <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-filter="add" lay-submit="">提交申请</button>
                 </div>
-                <button type="button" class="layui-btn layui-btn-normal layui-btn-sm">提交申请</button>
             </div>
         </div>
-    </div>
+    </form>
     <hr class="layui-bg-cyan">
     <script src="layui/jquery-3.4.1.min.js"></script>
     <script src="layui/layui.js"></script>
     <script>
         window.onload = function () {
-           
-            alert(0);
+            parent.document.getElementById('yonghu').text = sessionStorage.getItem("uid");
         }
+       
         layui.use(['form', 'layedit', 'laydate', 'slider'], function () {
             var form = layui.form
             , layer = layui.layer
@@ -76,12 +77,35 @@
 
             });
 
-
+            form.on('submit(add)', function (data) {
+                layer.alert(json.stringify(data.field), {
+                    title:'最终信息'
+                })
+                return false;
+            })
 
 
             //监听提交
             form.on('select(jz)', function (data) {
-               
+                var newString = data.value;
+                $.ajax({
+                    type: 'post',
+                    url: './Data/ItemCode.ashx?jz=' + newString,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $("#ItemCode").empty();
+                            for (var i = 0; i < data.length; i++) {
+                                var item = data[i];
+                                $("#ItemCode").append("<option value=" + item + ">" + item + "</option>");
+                            }
+                        } else {
+                            $("#ItemCode").empty();
+                            $("#ItemCode").append("<option value=''>请选择</option>");                           
+                        }
+                        form.render('select');
+                    }
+                })
             });
             $.ajax({
                 url: "./Data/jz.ashx",

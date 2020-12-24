@@ -11,7 +11,7 @@
     </style>
 </head>
 <body>
-    <div style="margin-top:30px;" class="">
+    <div style="margin-top:30px;" class="" id="login">
         <div style="text-align:center">
             <div style="margin:0 auto;">
                 <div class="layui-form-item">
@@ -48,6 +48,12 @@
     <script src="layui/jquery-3.4.1.min.js"></script>
     <script src="layui/layui.js"></script>
    <script>
+       window.onload = function () {
+           if (sessionStorage.getItem("uid") != null) {
+               parent.document.getElementById('yonghu').text = sessionStorage.getItem("uid");
+               $(location).attr('href', 'default.html');
+           }           
+       }
        layui.use(['layer'], function () {
            var layer = layui.layer;
        })
@@ -68,9 +74,9 @@
                    success: function (res) {
                        if (res == "0") {
                            layer.msg("登录成功");
-                           parent.document.getElementById('yonghu').text = user;
-                           window.location.href = "default.html";
-
+                           sessionStorage.setItem('uid', user);                        
+                           parent.document.getElementById('yonghu').text = user;                             
+                           $(location).attr('href', 'default.html');
                        }
                        else {                          
                            layer.msg("登录失败");

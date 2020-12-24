@@ -35,7 +35,7 @@
 
      
             <ul class="layui-nav layui-bg-cyan" lay-filter="demo">
-                <li class="layui-nav-item"><a href="#" id="yonghu">123</a></li>
+                <li class="layui-nav-item"><a id="yonghu">你好</a></li>
                 <li class="layui-nav-item"><a href="#default.html" onclick="loadIframe('default.html')">工作台</a></li>
                 <li class="layui-nav-item">
                     <a href="#">物料申请</a>
@@ -92,18 +92,7 @@
             } catch (ex) { }
         }
         window.setInterval("reinitIframe()", 200);
-        //function setIframeHeight(iframe) {
-        //    if (iframe) {
-        //        var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
-        //        if (iframeWin.document.body) {
-        //            iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
-        //        }
-        //    }
-        //};
 
-        //window.onload = function () {
-        //    setIframeHeight(document.getElementById('external-frame'));
-        //};
         layui.use(['carousel','element','layer'], function () {
 
            var carousel = layui.carousel //轮播
