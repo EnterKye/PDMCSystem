@@ -59,7 +59,19 @@
     <script src="layui/layui.js"></script>
     <script>
         window.onload = function () {
-            parent.document.getElementById('yonghu').text = sessionStorage.getItem("uid");
+            if (sessionStorage.getItem("uid") == null) {
+               window.location.href = "login.html";
+               // window.location.reload(true);
+               //window.opener.location.reload(true);
+            }
+            else {
+                //window.location.replace("apply.html")
+               
+                parent.document.getElementById('yonghu').text = sessionStorage.getItem("uid");
+              
+               // window.location.replace("http://www.runoob.com")
+            }
+           
         }
        
         layui.use(['form', 'layedit', 'laydate', 'slider'], function () {
