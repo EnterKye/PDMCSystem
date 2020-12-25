@@ -32,13 +32,10 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <div class="layui-inline">
-                     
+                    <div class="layui-inline">                    
                         <div class="layui-input-inline">
-                         <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" id="login">登录</button>
- 
-                        </div>
-                   
+                         <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" id="loginIn">登录</button>
+                        </div>                  
                     </div>
                 </div>
             </div>
@@ -48,21 +45,28 @@
     <script src="layui/jquery-3.4.1.min.js"></script>
     <script src="layui/layui.js"></script>
    <script>
-       window.onload = function () {
-           if (sessionStorage.getItem("uid") != null) {
-               parent.document.getElementById('yonghu').text = sessionStorage.getItem("uid");
+       $(document).ready(function () {
+           if (sessionStorage.getItem("user") != null) {
+               window.parent.document.getElementById("uid").innerHTML = sessionStorage.getItem("user");
+               window.parent.document.getElementById("loginTo").innerHTML = "注销";
                $(location).attr('href', 'default.html');
-               
-           }           
-       }
+           }
+           var state = window.parent.document.getElementById("loginTo").innerHTML;
+           if (state == "注销") {
+               parent.window.location.reload();
+               sessionStorage.clear();
+           }
+           
+       })
        layui.use(['layer'], function () {
            var layer = layui.layer;
        })
-       $("#login").click(function () {       
+      
+       $("#loginIn").click(function () {       
            var user = $("#user").val();
            var password = $("#pwd").val();
            if (user == "" || password == "") {
-               layer.msg("不能为空")
+               layer.msg("不能为空");
            }
            else {
                $.ajax({
@@ -75,9 +79,11 @@
                    success: function (res) {
                        if (res == "0") {
                            layer.msg("登录成功");
-                           sessionStorage.setItem('uid', user);                        
-                           parent.document.getElementById('yonghu').text = user;                             
+                           sessionStorage.setItem('user', user);                                                
                            $(location).attr('href', 'default.html');
+                           window.parent.document.getElementById("uid").innerHTML = sessionStorage.getItem("user");
+                           window.parent.document.getElementById("loginTo").innerHTML = "注销";
+
                        }
                        else {                          
                            layer.msg("登录失败");
