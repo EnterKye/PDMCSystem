@@ -25,17 +25,31 @@
         <li class="layui-nav-item"><a href="" target="ifc">查询</a></li>
     </ul>
     <hr class="layui-bg-cyan">
-    <iframe src="login.html" frameborder="0" scrolling="no" width="100%" id="external-frame" onload="this.height=100" name="ifc"></iframe>
+    <iframe src="login.html" frameborder="0" allowtransparency="true" scrolling="no" width="100%" id="external-frame" onload="this.height=100" name="ifc"></iframe>
+    <script src="layui/jquery-3.4.1.min.js"></script>
+    <script src="layui/jquery.cookie.js"></script>
     <script src="layui/layui.js" charset="utf-8"></script>
     <script>
+      
         layui.use('element', function () {
             var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
             //监听导航点击
             element.on('nav(demo)', function (elem) {
-                //console.log(elem)
                 layer.msg(elem.text());
             });
         });
+
+        if ($.cookie("url") != "") {
+            $("#external-frame").attr("src", $.cookie("url"));
+        }
+       
+        var aEle_way1 = document.getElementById("loginTo"); // 方式1 a标签.
+        aEle_way1.onclick = function () {
+            if (aEle_way1.innerHTML == "注销") {
+                parent.window.location.reload();
+                sessionStorage.clear();
+            }
+        }
         /*iframe高度处理*/
         function reinitIframe() {
             var iframe = document.getElementById("external-frame");

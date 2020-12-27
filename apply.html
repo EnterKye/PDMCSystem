@@ -56,10 +56,11 @@
     </form>
     <hr class="layui-bg-cyan">
     <script src="layui/jquery-3.4.1.min.js"></script>
+    <script src="layui/jquery.cookie.js"></script>
     <script src="layui/layui.js"></script>
     <script src="layui/index.js"></script>
     <script>
-        console.log(sessionStorage.getItem("user"));
+        $.cookie("url", "apply.html");
         layui.use(['form', 'layedit', 'laydate', 'slider'], function () {
             var form = layui.form
             , layer = layui.layer
@@ -76,9 +77,10 @@
             });
 
             form.on('submit(add)', function (data) {
-                layer.alert(json.stringify(data.field), {
-                    title:'最终信息'
-                })
+                //layer.alert(json.stringify(data.field), {
+                //    title:'最终信息'
+                //})
+                console.log(data);
                 return false;
             })
 
