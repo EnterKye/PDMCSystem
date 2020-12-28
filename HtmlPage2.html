@@ -12,31 +12,45 @@
     </style>
 </head>
 <body>
-    <div id="head">
-      12312314234234
-    </div>
+    <div class="layui-card-header layuiadmin-card-header-auto">
+        <form class="layui-form">
+            <div class="layui-form-item">
 
+                <div class="layui-inline">
+                    <label class="layui-form-label">公司名：</label>
+                    <div class="layui-input-inline">
+                        <input name="keyword" id="keyword" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">计划数</label>
+                        <div class="layui-input-inline">
+                            <input type="text" lay-verify="required|number" name="sol" autocomplete="off" class="layui-input">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
    
     <script src="layui/jquery-3.4.1.min.js"></script>
     <script src="layui/layui.js"></script>
     <script>
-
-        //$(function () {
-          
-        //    $("#head").load("index.html", function (response) {
-              
-        //    });
-         
-        //});
-        //layui.use(['element', 'layer'], function () {
-
-        //    var element = layui.element
-        //     , layer = layui.layer;
-
-        
-
-        //});
-
+        layui.use(['form'], function () {
+            var form = layui.form;
+            form.on('submit(formDemo)', function (data) {
+                console.log(data.field);
+                return false;
+            });
+        })
+      
       
     </script>
 </body>
