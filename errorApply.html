@@ -53,7 +53,7 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">计划数</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="num" lay-verify="required|number" autocomplete="off" class="layui-input">
+                                <input type="text" name="num" id="planNum" lay-verify="required|number" autocomplete="off" class="layui-input">
                             
                             </div>
 
@@ -158,6 +158,7 @@
                         }
                     } else {
                         $("#jz").empty();
+          
                         $("#jz").append("<option value=''>请选择</option>");
                     }
                     renderForm();
@@ -169,13 +170,43 @@
                     form.render();
                 });
             }
-            
+          
             $("#Code").blur(function () {
-                if ($("#Code").val()!=null&&$("#Code").length==9) {
-                    console.log($("#Code").length);
-                    layer.tips('Hi，我是tips', '#Code');
-                } else {
-                    layer.tips('Hi，我是tipss', '#Code');
+                var lableCode = $("#Code").val();
+                var jz = $("#jz").val();
+                console.log(jz);
+                if (jz != "") {
+                    //$("#jz").attr("disabled", "");
+                    if (lableCode != null && lableCode.length == 9) {
+                        $.ajax({
+                            url: './Data/LabelCode.ashx',
+                            type: "post",
+                            data: {
+                                code: lableCode
+                            },
+                            success: function (data) {
+
+                                data = data.replace("\"", "").replace("\"", "");
+                                console.log(data);
+                                data == "未识别此部品" ? layer.tips("未识别此部品", "#Code", {
+                                    tips: ['2', "#FF0000"],
+                                    time: 0
+                                }) : layer.tips("用量" + data, "#Code", {
+                                    tips: 2,
+                                    time: 0
+                                });
+                            }
+                        })
+
+                    }
+                } 
+                
+            })
+            $("#Code").change(function () {
+                var jz = $("#jz").val();
+                if (jz == "") {
+                    layer.msg('请选择机种');
+                    $("#Code").val("");
                 }
             })
            

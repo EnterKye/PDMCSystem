@@ -28,4 +28,8 @@ public class Plan
         /// 用户
         /// </summary>
         public string users { get; set; }
+        /// <summary>
+        /// Read结果
+        /// </summary>
+        public string result { get; set; }
 }

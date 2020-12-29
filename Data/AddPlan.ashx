@@ -44,7 +44,7 @@ public class AddPlan : IHttpHandler {
             num.users = context.Request["users"].ToString();
             int singleId = Convert.ToInt32(DateTime.Now.ToString("yyyyMMdd"));//当天数值
             //获取今天最大单号
-            string GetSingleId = "select max(singleid) 'max' from ProducePlan where  DATEDIFF(dd,times,GETDATE())=0";
+            string GetSingleId = "select max(singleid) 'max' from ProducePlan where DATEDIFF(dd,times,GETDATE())=0";
             ArrayList avgId = new ArrayList();
             IDataReader dr = db.ExecuteReader("SqlServer", GetSingleId);
             if (dr.Read())
