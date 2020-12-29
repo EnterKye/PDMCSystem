@@ -9,66 +9,77 @@
     <link rel="stylesheet" href="layui/css/layui.css" media="all">
     <style>
         .column_title {
-            font-size:20px;
+            font-size: 20px;
         }
     </style>
 </head>
 <body style="">
-   
-        <div style="margin-top:30px;" class="">
-            <div style="text-align:center">
-                <div style="margin:0 auto;">
-                    <form class="layui-form">
-                        <div class="layui-form-item">
-                            <div class="layui-inline">
-                                <label class="layui-form-label">机种</label>
-                                <div class="layui-input-inline">
-                                    <select lay-filter="jz" name="jz" id="jz">
-                                        <option value=""></option>
-                                    </select>
-                                </div>
 
+    <div style="margin-top:30px;" class="">
+        <div style="text-align:center">
+            <div style="margin:0 auto;">
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">机种</label>
+                            <div class="layui-input-inline">
+                                <select lay-filter="jz" name="jz" id="jz">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">ItemCode</label>
+                            <div class="layui-input-inline">
+                                <select lay-filter="ItemCode" name="ItemCode" id="ItemCode">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">Label</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="Code" id="Code" lay-verify="required|number" autocomplete="off" class="layui-input" maxlength="9">
                             </div>
                         </div>
-                        <div class="layui-form-item">
-                            <div class="layui-inline">
-                                <label class="layui-form-label">ItemCode</label>
-                                <div class="layui-input-inline">
-                                    <select lay-filter="ItemCode" name="ItemCode" id="ItemCode">
-                                        <option value=""></option>
-                                    </select>
-                                </div>
-
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">计划数</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="num" lay-verify="required|number" autocomplete="off" class="layui-input">
+                            
                             </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <div class="layui-inline">
-                                <label class="layui-form-label">计划数</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="num" lay-verify="required|number" autocomplete="off" class="layui-input">
-                                </div>
 
-                            </div>
                         </div>
-                        <button class="layui-btn" lay-submit lay-filter="formDemo">申请</button>
-                    </form>
-</div>
+                    </div>
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">申请</button>
+                </form>
             </div>
         </div>
-   
+    </div>
+
     <hr class="layui-bg-cyan">
     <script src="layui/jquery-3.4.1.min.js"></script>
     <script src="layui/jquery.cookie.js"></script>
     <script src="layui/layui.js"></script>
     <script src="layui/index.js"></script>
     <script>
-        $.cookie("url", "apply.html");
-        layui.use(['form', 'layedit', 'laydate', 'slider'], function () {
+        $.cookie("url", "errorApply.html");
+     
+        layui.use(['form', 'layedit', 'laydate', 'slider','layer'], function () {
             var form = layui.form
             , layer = layui.layer
             , layedit = layui.layedit
             , laydate = layui.laydate
-            , slider = layui.slider;
+            , slider = layui.slider
+            , layer=layui.layer;
             var $ = layui.$
             slider.render({
                 elem: '#slideTest8'
@@ -77,8 +88,7 @@
                 , max: 688
 
             });
-
-            form.on('submit(formDemo)', function (data) {              
+            form.on('submit(formDemo)', function (data) {
                 var obj = eval(data.field);
                 if (obj.jz == "") {
                     layer.alert('请选择机种');
@@ -87,7 +97,7 @@
                     //提交数据
                     $.ajax({
                         type: 'post',
-                        url: './Data/AddPlan.ashx?action=apply',
+                        url: './Data/AddPlan.ashx?action=errorApply',
                         data: {
                             jz: obj.jz,
                             ItemCode: obj.ItemCode,
@@ -107,12 +117,10 @@
                         }
                     })
                 }
-                console.log(obj.jz);
-                console.log(obj.ItemCode);
-                console.log(obj.num);
+
                 return false;
             });
-
+         
             //监听提交
             form.on('select(jz)', function (data) {
                 var newString = data.value;
@@ -129,7 +137,7 @@
                             }
                         } else {
                             $("#ItemCode").empty();
-                            $("#ItemCode").append("<option value=''>请选择</option>");                           
+                            $("#ItemCode").append("<option value=''>请选择</option>");
                         }
                         form.render('select');
                     }
@@ -157,12 +165,20 @@
             })
             function renderForm() {
                 layui.use('form', function () {
-                    var form = layui.form; 
+                    var form = layui.form;
                     form.render();
                 });
             }
-
-
+            
+            $("#Code").blur(function () {
+                if ($("#Code").val()!=null&&$("#Code").length==9) {
+                    console.log($("#Code").length);
+                    layer.tips('Hi，我是tips', '#Code');
+                } else {
+                    layer.tips('Hi，我是tipss', '#Code');
+                }
+            })
+           
 
         });
     </script>
