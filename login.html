@@ -44,20 +44,14 @@
     <hr class="layui-bg-cyan">
     <script src="layui/jquery-3.4.1.min.js"></script>
     <script src="layui/layui.js"></script>
+
    <script>
        $(document).ready(function () {
            if (sessionStorage.getItem("user") != null) {
                window.parent.document.getElementById("uid").innerHTML = sessionStorage.getItem("user");
                window.parent.document.getElementById("loginTo").innerHTML = "注销";
-               //$(location).attr('href', 'default.html');
+               $(location).attr('href', 'WorkList.html');
            }
-          
-           //if (state == "注销") {
-           //    parent.window.location.reload();
-           //    sessionStorage.clear();
-           //}
-          
-           
        })
        layui.use(['layer'], function () {
            var layer = layui.layer;
@@ -81,7 +75,7 @@
                        if (res == "0") {
                            layer.msg("登录成功");
                            sessionStorage.setItem('user', user);                                                
-                           $(location).attr('href', 'default.html');
+                           $(location).attr('href', 'WorkList.html');
                            window.parent.document.getElementById("uid").innerHTML = sessionStorage.getItem("user");
                            window.parent.document.getElementById("loginTo").innerHTML = "注销";
 

@@ -32,4 +32,6 @@ public class Plan
         /// Read结果
         /// </summary>
         public string result { get; set; }
+
+        public string Code { get; set; }
 }

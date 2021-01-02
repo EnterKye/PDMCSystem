@@ -1,0 +1,76 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script src="/layui/layui.js"></script>
+    <title>工作台</title>
+</head>
+<body>
+    <div id="zhuti">
+        <div class="layui-tab layui-tab-brief" lay-filter="docdemotabbrief">
+            <ul class="layui-tab-title">
+                <li class="layui-this">已申请完成，需配布</li>
+                <li>待确认</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <table class="layui-hide" id="list" lay-filter="list"></table>
+                </div>
+                <div class="layui-tab-item">内容2</div> 
+                <div class="layui-tab-item">内容3</div>
+                <div class="layui-tab-item">内容4</div>
+                <div class="layui-tab-item">内容5</div>  
+            </div>
+        </div>
+    </div>
+    <script src="layui/jquery-3.4.1.min.js"></script>
+    <script src="layui/jquery.cookie.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script>
+        $.cookie("url", "WorkList.html");
+        layui.use(['element', 'layer', 'table'], function () {
+            var element = layui.element
+            , layer = layui.layer
+            , table = layui.table;
+
+            table.render({
+                elem: '#list'
+                , url: './Data/WorKList.ashx'
+                , cellMinWidth: 80
+                , cols: [[
+                    { field: 'SingleId', title: 'ID', align: 'center', templet: addLink }
+                    , { field: 'jz', title: '机种', align: 'center' }
+                    , { field: 'ItemCode', title: '方向', align: 'center' }
+                    , { field: 'LabelCode', title: 'Label', align: 'center' }
+                    , { field: 'Times', title: '申请日期', align: 'center', templet: "<div>{{layui.util.toDateString(d.Times,'yyyy-MM-dd HH:mm')}}</div>" }
+                    , { field: 'Users', title: '申请人', align: 'center' }
+                ]]
+                , id: 'list'
+                , page: true
+                , loading: true
+                , text: { none: '暂无相关数据' }
+                , parseData: function (res) {
+                    return {
+                        "code": 0,
+                        "msg": res.message,
+                        "count": res.count,
+                        "data": res.data
+                    };
+                }
+            });
+            function addLink(d) {
+                var addLink = d.SingleID;
+                if ('' == addLink || null == addLink || undefined == addLink) {
+                    return '<a class="layui-table-link" href="javascript:void(0);" lay-event="link">error</a>';
+                }
+                if (addLink.length > 0) {
+                    return '<a class="layui-table-link" href="javascript:void(0);" lay-event="link">' + d.SingleID + '</a>';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

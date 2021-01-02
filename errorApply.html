@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
-    <title>PDMC</title>
+    <title>异常申请</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -59,7 +59,7 @@
 
                         </div>
                     </div>
-                    <button class="layui-btn" lay-submit lay-filter="formDemo">申请</button>
+                    <button class="layui-btn" id="Add" lay-submit lay-filter="formDemo">申请</button>
                 </form>
             </div>
         </div>
@@ -90,6 +90,7 @@
             });
             form.on('submit(formDemo)', function (data) {
                 var obj = eval(data.field);
+               // console.log(data.field);
                 if (obj.jz == "") {
                     layer.alert('请选择机种');
                 }
@@ -101,17 +102,18 @@
                         data: {
                             jz: obj.jz,
                             ItemCode: obj.ItemCode,
+                            label:obj.Code,
                             planNum: obj.num,
                             users: sessionStorage.getItem("user")
                         },
                         dataType: 'json',
                         success: function (res) {
                             var orz = eval(res);
-                            console.log(orz[0].state);
+                      
                             if (orz[0].state == 0) {
                                 layer.msg('添加成功,请稍等');
                                 setTimeout(function () {
-                                    $(location).attr('href', 'default.html');
+                                    $(location).attr('href', 'WorkList.html');
                                 }, 3000);
                             }
                         }
@@ -123,6 +125,11 @@
          
             //监听提交
             form.on('select(jz)', function (data) {
+               
+                if (data.value == "") {
+                    $("#Code").val("");
+                    layer.closeAll();
+                }
                 var newString = data.value;
                 $.ajax({
                     type: 'post',
@@ -173,28 +180,40 @@
           
             $("#Code").blur(function () {
                 var lableCode = $("#Code").val();
-                var jz = $("#jz").val();
-                console.log(jz);
+                var fx = $("#ItemCode").val();
+                var jz = $("#jz").val();       
                 if (jz != "") {
-                    //$("#jz").attr("disabled", "");
-                    if (lableCode != null && lableCode.length == 9) {
+                    if (lableCode != null || lableCode.length == 9) {
                         $.ajax({
                             url: './Data/LabelCode.ashx',
                             type: "post",
                             data: {
-                                code: lableCode
+                                code: lableCode,
+                                Jz: jz,
+                                Fx: fx
                             },
                             success: function (data) {
-
                                 data = data.replace("\"", "").replace("\"", "");
-                                console.log(data);
-                                data == "未识别此部品" ? layer.tips("未识别此部品", "#Code", {
-                                    tips: ['2', "#FF0000"],
-                                    time: 0
-                                }) : layer.tips("用量" + data, "#Code", {
-                                    tips: 2,
-                                    time: 0
-                                });
+                                //data == "未识别此部品" ? layer.tips("未识别此部品", "#Code", {
+                                //    tips: ['2', "#FF0000"],
+                                //    time: 0
+                                //})
+                                //: layer.tips("用量" + data, "#Code", {
+                                //    tips: 2,
+                                //    time: 0
+                                //});
+                                if (data == "未识别此部品") {
+                                    layer.tips("未识别此部品", "#Code", {
+                                        tips: ['2', '#FF0000'], time: 0
+                                    });
+                                    $("#Add").addClass("layui-btn-disabled").attr("disabled", true);
+                                } else {
+                                    layer.tips("用量" + data, "#Code", {
+                                        tips: 2,
+                                        time: 0
+                                    });
+                                    $('#Add').removeClass("layui-btn-disabled").attr("disabled", false);
+                                }
                             }
                         })
 
@@ -205,11 +224,11 @@
             $("#Code").change(function () {
                 var jz = $("#jz").val();
                 if (jz == "") {
-                    layer.msg('请选择机种');
+                    layer.msg('请先选择机种');
                     $("#Code").val("");
                 }
             })
-           
+          
 
         });
     </script>

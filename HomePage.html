@@ -13,7 +13,7 @@
     <ul class="layui-nav">
         <li class="layui-nav-item"><a href="JavaScript:;" id="uid">你好</a></li>
         <li class="layui-nav-item"><a href="login.html" id="loginTo" target="ifc">登录</a></li>
-        <li class="layui-nav-item"><a href="JavaScript:;" target="ifc">工作台</a></li>
+        <li class="layui-nav-item"><a href="WorkList.html" target="ifc">工作台</a></li>
         <li class="layui-nav-item">
             <a href="javascript:;">物料申请</a>
             <dl class="layui-nav-child">
@@ -21,7 +21,7 @@
                 <dd><a href="errorApply.html" target="ifc">异常申请</a></dd>
             </dl>
         </li>
-        <li class="layui-nav-item"><a href="" target="ifc">维护</a></li><!--维护页面包含人员维护-->
+        <li class="layui-nav-item"><a href="" target="ifc">维护</a></li>
         <li class="layui-nav-item"><a href="" target="ifc">查询</a></li>
     </ul>
     <hr class="layui-bg-cyan">
@@ -32,18 +32,15 @@
     <script>
       
         layui.use('element', function () {
-            var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
-            //监听导航点击
-            element.on('nav(demo)', function (elem) {
-                layer.msg(elem.text());
-            });
+            var element = layui.element;
+           
         });
 
         if ($.cookie("url") != "") {
             $("#external-frame").attr("src", $.cookie("url"));
         }
        
-        var aEle_way1 = document.getElementById("loginTo"); // 方式1 a标签.
+        var aEle_way1 = document.getElementById("loginTo");
         aEle_way1.onclick = function () {
             if (aEle_way1.innerHTML == "注销") {
                 parent.window.location.reload();
