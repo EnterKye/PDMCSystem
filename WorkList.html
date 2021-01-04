@@ -10,7 +10,7 @@
 </head>
 <body>
     <div id="zhuti">
-        <div class="layui-tab layui-tab-brief" id="tabList" lay-filter="docdemotabbrief" lay-allowclose="true">
+        <div class="layui-tab layui-tab-brief" id="tabList" lay-filter="docdemotabbrief">
             <ul class="layui-tab-title">
                 <li class="layui-this">已申请完成，需配布</li>
                 <li>待确认</li>
@@ -85,21 +85,18 @@
                 var ID = data.SingleID;
                 ID = encodeURIComponent(ID);
                
-                
-                console.log(array);
                 var a = $.inArray(ID, array);
-                console.log(a);
                 if (a == -1) {
                     element.tabAdd('docdemotabbrief', {
                         title: ID + "详细"
-                    , content: '<iframe data-frameid="456" scrolling="no" frameborder="0" src="detailed.html?id=' + ID + '" style="width:100%;"></iframe>'
+                    , content: '<iframe data-frameid="dataIframe" scrolling="no" frameborder="0" src="detailed.html?id=' + ID + '" style="width:100%;"></iframe>'
                     , id: ID
                     });
                     array.push(ID);
                 }
-                element.tabChange('docdemotabbrief', ID);
+                element.tabChange('docdemotabbrief', ID);//切换到当前Tabs
                 
-                
+                //使用弹窗形式
                 //layer.open({
                 //    type: 2,
                 //    title: '详细',
@@ -109,7 +106,16 @@
                 //    content: 'detailed.html?' + ID
                 //})
             });
-           
+            var active = {
+                tabDelete: function (othis) {
+                    //删除指定Tab项
+                    element.tabDelete('tabList', othis.attr('data-id'));
+                    othis.addClass('layui-btn-disabled');
+                }
+            }
+            window.tabDel = function (data_id) {
+                element.tabDelete('tabList', data_id);
+            }
         });
     </script>
 </body>

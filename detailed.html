@@ -1,10 +1,23 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script src="/layui/layui.js"></script>
+    <title>详细</title>
+
 </head>
 <body>
-    123123123123123123
+    <div id="msg"></div>
+    <button class="layui-btn site-demo-active" data-type="tabDelete">删除</button>
+    <script type="text/javascript" src="layui/getQueryVariable.js"></script>
+    <script src="layui/jquery-3.4.1.min.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var id = getQueryVariable("id");
+        $("#msg").html("这个ID是" + id);               
+    </script>
 </body>
 </html>
